@@ -3,7 +3,7 @@
 import { Alert } from "@/components/Alert";
 import { Chart } from "@/components/Chart";
 import { SeachInput } from "@/components/SearchInput";
-import { FunctionType, Interval, fetchApiData, getApiUrl } from "@/utils/Api";
+import { fetchApiData } from "@/utils/Api";
 import { useState } from "react";
 
 export default function Home() {
@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <main>
-      <SeachInput onClick={onSearchClick} />
+      <SeachInput onSubmit={onSearchClick} />
       {errorMessageForClient ? <Alert message={errorMessageForClient.toString()} /> : <Chart data={data}></Chart>}
     </main>
   );

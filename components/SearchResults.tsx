@@ -1,5 +1,5 @@
-import { SearchInputContext } from "@/app/page";
-import { BestMatch, BestMatchResults } from "@/utils/Api";
+import { SearchInputContext } from "@/context/searchInput";
+import { BestMatch } from "@/utils/api";
 import { useContext } from "react";
 
 

@@ -5,13 +5,9 @@ import { Chart } from "@/components/Chart";
 import { Header } from "@/components/Header";
 import { SeachInput } from "@/components/SearchInput";
 import { TopGainersLosers } from "@/components/TopGainersLosers";
-import { BestMatchResults, fetchApiData, fetchApiSearchResults, fetchApiTopGainersLosers, fetchDemolData } from "@/utils/Api";
-import { createContext, useEffect, useState } from "react";
-
-interface SearchInputContext {
-  searchResults: BestMatchResults;
-}
-export const SearchInputContext = createContext<SearchInputContext>({ searchResults: null });
+import { SearchInputContext } from "@/context/searchInput";
+import { fetchApiData, fetchApiSearchResults, fetchApiTopGainersLosers, fetchDemolData } from "@/utils/api";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [chartData, setChartData] = useState<any>(null);

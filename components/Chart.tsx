@@ -68,7 +68,7 @@ export const Chart = (props: ChartProps) => {
     );
 
     return (
-        <div className='flex justify-center'>
+        <div className='w-full flex justify-center'>
             {data == null
                 ? <ChartSkeleton />
                 : <div className='flex flex-col w-full'>

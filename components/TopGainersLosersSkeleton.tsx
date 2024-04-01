@@ -14,7 +14,7 @@ export const TopGainersLosersSkeleton = ({ rows = 4 }: TopGainersLosersSkeletonP
                             </div>
                             <div key={`skeleton-${i}-3`} className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
                         </div>
-                        {i < rows - 1 && <div key={`skeleton-${i}-divider`} className="border border-gray-200 dark:border-gray-700 my-[9px]"></div>}
+                        {i < rows - 1 && <div key={`skeleton-${i}-divider`} className="border border-gray-200 dark:border-gray-700 my-[15px]"></div>}
                     </div>
                 ))}
                 <span className="sr-only">Loading...</span>

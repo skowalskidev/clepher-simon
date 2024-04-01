@@ -71,9 +71,9 @@ export const Chart = (props: ChartProps) => {
         <div className='flex justify-center'>
             {data == null
                 ? <ChartSkeleton />
-                // @ts-ignore
                 : <div className='flex flex-col w-full'>
-                    Symbol: {data.symbol}
+                    <h2>Symbol: {data.symbol}</h2>
+                    {/* @ts-ignore */}
                     <div ref={chartContainerRef} />
                 </div>}
         </div>

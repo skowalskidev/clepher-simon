@@ -18,6 +18,7 @@ export default function Home() {
   }, []);
 
   function onSearchClick(symbol: string) {
+    SetData(null);
     fetchApiData(symbol)
       .then(SetData)
       .catch(SetErrorMessageForClient);

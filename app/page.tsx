@@ -4,7 +4,7 @@ import { Alert } from "@/components/Alert";
 import { Chart } from "@/components/Chart";
 import { SeachInput } from "@/components/SearchInput";
 import { fetchApiData, fetchDemolData } from "@/utils/Api";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [data, SetData] = useState<any>(null);

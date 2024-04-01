@@ -10,7 +10,7 @@ interface Colors {
     areaBottomColor: string,
 }
 interface ChartProps {
-    data: Promise<unknown>,
+    data: any,
     colors?: Colors;
 }
 

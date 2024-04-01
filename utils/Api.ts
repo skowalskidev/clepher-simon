@@ -49,7 +49,11 @@ function fetchData(url: string) {
                     time: date,
                     value: parseFloat(values['4. close'])
                 }));
-                resolve(transformedData);
+                const dataObject = {
+                    symbol: data['Meta Data']['2. Symbol'],
+                    data: transformedData,
+                }
+                resolve(dataObject);
             })
             .catch(error => {
                 reject(error);

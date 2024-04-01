@@ -19,9 +19,9 @@ export const Chart = (props: ChartProps) => {
     const {
         data,
         colors: {
-            backgroundColor = 'white',
+            backgroundColor = 'black',
             lineColor = '#2962FF',
-            textColor = 'black',
+            textColor = 'white',
             areaTopColor = '#2962FF',
             areaBottomColor = 'rgba(41, 98, 255, 0.28)',
         } = {},
@@ -43,6 +43,10 @@ export const Chart = (props: ChartProps) => {
                     background: { type: ColorType.Solid, color: backgroundColor },
                     textColor,
                 },
+                grid: {
+                    vertLines: { color: '#444' },
+                    horzLines: { color: '#444' },
+                },
                 // @ts-ignore
                 width: chartContainerRef.current.clientWidth,
                 height: 300,
@@ -50,7 +54,7 @@ export const Chart = (props: ChartProps) => {
             chart.timeScale().fitContent();
 
             const newSeries = chart.addAreaSeries({ lineColor, topColor: areaTopColor, bottomColor: areaBottomColor });
-            newSeries.setData(data);
+            newSeries.setData(data.data);
 
             window.addEventListener('resize', handleResize);
 
@@ -68,7 +72,10 @@ export const Chart = (props: ChartProps) => {
             {data == null
                 ? <ChartSkeleton />
                 // @ts-ignore
-                : <div className="w-full" ref={chartContainerRef} />}
+                : <div className='flex flex-col w-full'>
+                    Symbol: {data.symbol}
+                    <div ref={chartContainerRef} />
+                </div>}
         </div>
     );
 };

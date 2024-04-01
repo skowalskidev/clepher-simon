@@ -32,7 +32,9 @@ export default function Home() {
       <div className="py-8 px-2 mx-auto max-w-2xl lg:py-16">
         {errorMessageForClient
           ? <Alert message={errorMessageForClient.toString()} />
-          : <Chart data={data} />}
+          : <div className="flex flex-col">
+            <Chart data={data} />
+          </div>}
       </div>
     </main>
   </>

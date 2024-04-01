@@ -56,11 +56,9 @@ export default function Home() {
       <main>
         {errorMessageForClient
           ? <Alert message={errorMessageForClient.toString()} />
-          : <div className="flex flex-col sm:flex-row">
+          : <div className="flex flex-col-reverse sm:flex-row">
             <TopGainersLosers topGainersLosersData={topGainersLosers} />
-            <div className="py-2 px-2 mx-auto w-full flex items-center">
-              <Chart data={chartData} />
-            </div>
+            <Chart data={chartData} />
           </div>}
       </main>
     </>

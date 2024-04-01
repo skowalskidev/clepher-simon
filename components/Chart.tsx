@@ -72,7 +72,7 @@ export const Chart = (props: ChartProps) => {
             {data == null
                 ? <ChartSkeleton />
                 : <div className='flex flex-col w-full'>
-                    <h2 className="mb-2 text-4xl font-bold dark:text-white">Symbol: <span className='text-blue-500'>{data.symbol}</span></h2>
+                    <h2 className="px-2 mb-2 text-4xl font-bold dark:text-white">Symbol: <span className='text-blue-500'>{data.symbol}</span></h2>
                     {/* @ts-ignore */}
                     <div ref={chartContainerRef} />
                 </div>}

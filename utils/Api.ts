@@ -23,9 +23,28 @@ export enum Interval {
     MONTHLY = 'MONTHLY',
 }
 
+export interface BestMatch {
+    symbol: string,
+    name: string,
+    type: string,
+    region: string,
+    marketOpen: string,
+    marketClose: string,
+    timezone: string,
+    currency: string,
+    matchScore: string,
+}
+
+export type BestMatchResults = BestMatch[] | null;
+
 export function getApiUrl(_function: FunctionType, symbol: string, interval: Interval): string {
     // return `https://www.alphavantage.co/query?function=${_function}&symbol=${symbol}&interval=${interval}&apikey=${process.env.NEXT_PUBLIC_APIKEY}`; // TODO: change to another method of authentication to remove the need to expose the api key to the client
     return `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=${process.env.NEXT_PUBLIC_DEMO_APIKEY}`;
+}
+
+export function getApiSearchUrl(keywords: string): string {
+    // return `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keywords}&apikey=${process.env.NEXT_PUBLIC_APIKEY}`; // TODO: change to another method of authentication to remove the need to expose the api key to the client
+    return `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=tesco&apikey=${process.env.NEXT_PUBLIC_DEMO_APIKEY}`;
 }
 
 function fetchData(url: string) {
@@ -38,7 +57,7 @@ function fetchData(url: string) {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 // Check if 'Time Series (Daily)' exists in the data
                 if (!data || !data['Time Series (Daily)']) {
                     throw new Error('Invalid response format: Please Contact Support. Details: ' + JSON.stringify(data));
@@ -67,4 +86,36 @@ export function fetchApiData(symbol: string) {
 
 export function fetchDemolData() {
     return fetchData(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=${process.env.NEXT_PUBLIC_DEMO_APIKEY}`);
+}
+
+function fetchSearchResults(url: string) {
+    return new Promise((resolve, reject) => {
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data.bestMatches);
+                if (!data || !data.bestMatches) {
+                    resolve(null);
+                    return;
+                }
+                // Check if 'Time Series (Daily)' exists in the data
+                const bestMatches = data.bestMatches.map((bestMatch: any) => ({
+                    symbol: bestMatch["1. symbol"],
+                    name: bestMatch["2. name"],
+                }))
+                resolve(bestMatches);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+}
+
+export function fetchApiSearchResults(keywords: string) {
+    return fetchSearchResults(getApiSearchUrl(keywords));
 }

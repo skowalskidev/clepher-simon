@@ -14,7 +14,7 @@ interface SearchInputContext {
 export const SearchInputContext = createContext<SearchInputContext>({ searchResults: null });
 
 export default function Home() {
-  const [data, setData] = useState<any>(null);
+  const [chartData, setChartData] = useState<any>(null);
   const [searchResults, setSearchResults] = useState<any>(null);
   const [topGainersLosers, setTopGainersLosers] = useState<any>(null);
   const [errorMessageForClient, setErrorMessageForClient] = useState<string | null>(null);
@@ -24,15 +24,15 @@ export default function Home() {
       .then(setTopGainersLosers)
       .catch(setErrorMessageForClient);
     fetchDemolData()
-      .then(setData)
+      .then(setChartData)
       .catch(setErrorMessageForClient);
   }, []);
 
-  function onSubmit(symbol: string) {
-    setData(null);
+  function onSearchSubmit(symbol: string) {
+    setChartData(null);
     setSearchResults(null);
     fetchApiData(symbol)
-      .then(setData)
+      .then(setChartData)
       .catch(setErrorMessageForClient);
   }
 
@@ -46,28 +46,29 @@ export default function Home() {
       .catch(setErrorMessageForClient);
   }
 
-  function onBlur() {
+  function onSearchBlur() {
     setSearchResults(null);
   }
 
-  return (<>
-    <Header>
-      <SearchInputContext.Provider value={{ searchResults }}>
-        <SeachInput onSubmit={onSubmit} onInput={onSearchInput} onBlur={onBlur} searchResults={searchResults} />
-      </SearchInputContext.Provider>
-    </Header>
-    <main>
-      {errorMessageForClient
-        ? <Alert message={errorMessageForClient.toString()} />
-        : <div className="flex flex-col sm:flex-row">
-          <TopGainersLosers topGainersLosersData={topGainersLosers} />
-          <div className="py-2 px-2 mx-auto w-full flex items-center">
-            <div className="flex flex-col w-full">
-              <Chart data={data} />
+  return (
+    <>
+      <Header>
+        <SearchInputContext.Provider value={{ searchResults }}>
+          <SeachInput onSubmit={onSearchSubmit} onInput={onSearchInput} onBlur={onSearchBlur} searchResults={searchResults} />
+        </SearchInputContext.Provider>
+      </Header>
+      <main>
+        {errorMessageForClient
+          ? <Alert message={errorMessageForClient.toString()} />
+          : <div className="flex flex-col sm:flex-row">
+            <TopGainersLosers topGainersLosersData={topGainersLosers} />
+            <div className="py-2 px-2 mx-auto w-full flex items-center">
+              <div className="flex flex-col w-full">
+                <Chart data={chartData} />
+              </div>
             </div>
-          </div>
-        </div>}
-    </main>
-  </>
+          </div>}
+      </main>
+    </>
   );
 }

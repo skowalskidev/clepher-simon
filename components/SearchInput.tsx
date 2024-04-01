@@ -7,10 +7,9 @@ interface SearchInputParams {
     onSubmit: (symbol: string) => void;
     onInput: (symbol: string) => void;
     onBlur: () => void;
-    searchResults: any[];
 }
 
-export const SeachInput = ({ onSubmit, onInput, onBlur, searchResults }: SearchInputParams) => {
+export const SeachInput = ({ onSubmit, onInput, onBlur }: SearchInputParams) => {
     const [input, setInput] = useState("");
 
     function handleSubmit(event: any) {

@@ -54,7 +54,7 @@ export default function Home() {
     <>
       <Header>
         <SearchInputContext.Provider value={{ searchResults }}>
-          <SeachInput onSubmit={onSearchSubmit} onInput={onSearchInput} onBlur={onSearchBlur} searchResults={searchResults} />
+          <SeachInput onSubmit={onSearchSubmit} onInput={onSearchInput} onBlur={onSearchBlur} />
         </SearchInputContext.Provider>
       </Header>
       <main>

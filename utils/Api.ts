@@ -37,6 +37,19 @@ export interface BestMatch {
 
 export type BestMatchResults = BestMatch[] | null;
 
+export interface TopGainerLoser {
+    ticker: string,
+    price: string,
+    changeAmount: string,
+    changePercentage: string,
+    volume: string,
+}
+
+export type TopGainersLosersData = null | {
+    topGainers: TopGainerLoser[];
+    topLosers: TopGainerLoser[];
+};
+
 export function getApiUrl(_function: FunctionType, symbol: string, interval: Interval): string {
     // return `https://www.alphavantage.co/query?function=${_function}&symbol=${symbol}&interval=${interval}&apikey=${process.env.NEXT_PUBLIC_APIKEY}`; // TODO: change to another method of authentication to remove the need to expose the api key to the client
     return `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=${process.env.NEXT_PUBLIC_DEMO_APIKEY}`;
@@ -45,6 +58,10 @@ export function getApiUrl(_function: FunctionType, symbol: string, interval: Int
 export function getApiSearchUrl(keywords: string): string {
     // return `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keywords}&apikey=${process.env.NEXT_PUBLIC_APIKEY}`; // TODO: change to another method of authentication to remove the need to expose the api key to the client
     return `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=tesco&apikey=${process.env.NEXT_PUBLIC_DEMO_APIKEY}`;
+}
+
+export function getApiTopGainersLosersUrl(): string {
+    return `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${process.env.NEXT_PUBLIC_DEMO_APIKEY}`;
 }
 
 function fetchData(url: string) {
@@ -98,7 +115,6 @@ function fetchSearchResults(url: string) {
                 return response.json();
             })
             .then(data => {
-                console.log(data.bestMatches);
                 if (!data || !data.bestMatches) {
                     resolve(null);
                     return;
@@ -118,4 +134,42 @@ function fetchSearchResults(url: string) {
 
 export function fetchApiSearchResults(keywords: string) {
     return fetchSearchResults(getApiSearchUrl(keywords));
+}
+
+export function fetchApiTopGainersLosers() {
+    return new Promise((resolve, reject) => {
+        fetch(getApiTopGainersLosersUrl())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                if (!data || !data.top_gainers || !data.top_losers) {
+                    resolve(null);
+                    return;
+                }
+                // Check if 'Time Series (Daily)' exists in the data
+                const topGainers = data.top_gainers.slice(0, 4).map((topGainer: any) => ({
+                    ticker: topGainer.ticker,
+                    price: topGainer.price,
+                    changePercentage: topGainer.change_percentage,
+                }));
+                const topLosers = data.top_losers.slice(0, 4).map((topLoser: any) => ({
+                    ticker: topLoser.ticker,
+                    price: topLoser.price,
+                    changePercentage: topLoser.change_percentage,
+                }));
+                const topGainersLosers: TopGainersLosersData = {
+                    topGainers,
+                    topLosers,
+                }
+                resolve(topGainersLosers);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
 }

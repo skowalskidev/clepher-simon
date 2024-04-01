@@ -4,15 +4,20 @@ import { Alert } from "@/components/Alert";
 import { Chart } from "@/components/Chart";
 import { Header } from "@/components/Header";
 import { SeachInput } from "@/components/SearchInput";
-import { fetchApiData, fetchApiSearchResults, fetchDemolData } from "@/utils/Api";
+import { TopGainersLosers } from "@/components/TopGainersLosers";
+import { fetchApiData, fetchApiSearchResults, fetchApiTopGainersLosers, fetchDemolData } from "@/utils/Api";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [data, SetData] = useState<any>(null);
   const [searchResults, SetSearchResults] = useState<any>(null);
+  const [topGainersLosers, SetTopGainersLosers] = useState<any>(null);
   const [errorMessageForClient, SetErrorMessageForClient] = useState<string | null>(null);
 
   useEffect(() => {
+    fetchApiTopGainersLosers()
+      .then(SetTopGainersLosers)
+      .catch(SetErrorMessageForClient);
     fetchDemolData()
       .then(SetData)
       .catch(SetErrorMessageForClient);
@@ -45,13 +50,18 @@ export default function Home() {
       <SeachInput onSubmit={onSubmit} onInput={onSearchInput} onBlur={onBlur} searchResults={searchResults} />
     </Header>
     <main>
-      <div className="py-8 px-2 mx-auto max-w-2xl lg:py-16">
-        {errorMessageForClient
-          ? <Alert message={errorMessageForClient.toString()} />
-          : <div className="flex flex-col">
-            <Chart data={data} />
-          </div>}
-      </div>
+      {errorMessageForClient
+        ? <Alert message={errorMessageForClient.toString()} />
+        : <div className="flex">
+          <div>
+            <TopGainersLosers topGainersLosersData={topGainersLosers} />
+          </div>
+          <div className="grow py-8 px-2 mx-auto max-w-2xl lg:py-16">
+            <div className="flex flex-col">
+              <Chart data={data} />
+            </div>
+          </div>
+        </div>}
     </main>
   </>
   );

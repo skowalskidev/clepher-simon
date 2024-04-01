@@ -49,7 +49,7 @@ export const Chart = (props: ChartProps) => {
                 },
                 // @ts-ignore
                 width: chartContainerRef.current.clientWidth,
-                height: 300,
+                height: 464,
             });
             chart.timeScale().fitContent();
 

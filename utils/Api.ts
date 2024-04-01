@@ -22,13 +22,13 @@ export enum Interval {
 }
 
 export function getApiUrl(_function: FunctionType, symbol: string, interval: Interval): string {
-    return `https://www.alphavantage.co/query?function=${_function}&symbol=${symbol}&interval=${interval}&apikey=32urbfbsygcsdjkhk`; // TODO: change to another method of authentication to remove the need to expose the api key to the client
-    // return `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=demo`;
+    // return `https://www.alphavantage.co/query?function=${_function}&symbol=${symbol}&interval=${interval}&apikey=32urbfbsygcsdjkhk`; // TODO: change to another method of authentication to remove the need to expose the api key to the client
+    return `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`;
 }
 
-export function fetchApiData(symbol: string) {
+function fetchData(url: string) {
     return new Promise((resolve, reject) => {
-        fetch(getApiUrl(FunctionType.TIME_SERIES_DAILY, symbol, Interval._15min))
+        fetch(url)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -36,12 +36,13 @@ export function fetchApiData(symbol: string) {
                 return response.json();
             })
             .then(data => {
+                console.log(data);
                 // Check if 'Time Series (Daily)' exists in the data
                 if (!data || !data['Time Series (Daily)']) {
                     throw new Error('Invalid response format: Please Contact Support. Details: ' + JSON.stringify(data));
                 }
                 // Sort data by time TODO: remove this by resolving the unsorted data issue
-                const sortedData = Object.entries(data[0]).sort((a, b) => new Date(a[0]) - new Date(b[0]));
+                const sortedData = Object.entries(data['Time Series (Daily)']).sort((a, b) => new Date(a[0]) - new Date(b[0]));
                 const transformedData = sortedData.map(([date, values]: any) => ({
                     time: date,
                     value: parseFloat(values['4. close'])
@@ -52,4 +53,12 @@ export function fetchApiData(symbol: string) {
                 reject(error);
             });
     });
+}
+
+export function fetchApiData(symbol: string) {
+    return fetchData(getApiUrl(FunctionType.TIME_SERIES_DAILY, symbol, Interval._15min));
+}
+
+export function fetchDemolData() {
+    return fetchData("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo");
 }

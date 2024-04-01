@@ -3,27 +3,31 @@
 import { Alert } from "@/components/Alert";
 import { Chart } from "@/components/Chart";
 import { SeachInput } from "@/components/SearchInput";
-import { fetchApiData } from "@/utils/Api";
-import { useState } from "react";
+import { fetchApiData, fetchDemolData } from "@/utils/Api";
+import { Suspense, useEffect, useState } from "react";
 
 export default function Home() {
-  const [data, SetData] = useState<any>([]);
+  const [data, SetData] = useState<any>(null);
   const [errorMessageForClient, SetErrorMessageForClient] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchDemolData()
+      .then(SetData)
+      .catch(SetErrorMessageForClient);
+  }, []);
 
   function onSearchClick(symbol: string) {
     fetchApiData(symbol)
-      .then(transformedData => {
-        SetData(transformedData);
-      })
-      .catch(error => {
-        SetErrorMessageForClient(error);
-      });
+      .then(SetData)
+      .catch(SetErrorMessageForClient);
   }
 
   return (
     <main>
       <SeachInput onSubmit={onSearchClick} />
-      {errorMessageForClient ? <Alert message={errorMessageForClient.toString()} /> : <Chart data={data}></Chart>}
+      {data == null && <div>loading...</div>}
+      {errorMessageForClient && <Alert message={errorMessageForClient.toString()} />}
+      {data != null && !errorMessageForClient && <Chart data={data} />}
     </main>
   );
 }

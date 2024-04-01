@@ -1,7 +1,20 @@
 import { createChart, ColorType } from 'lightweight-charts';
 import React, { useEffect, useRef } from 'react';
 
-export const Chart = (props: any) => {
+
+interface Colors {
+    backgroundColor: string,
+    lineColor: string,
+    textColor: string,
+    areaTopColor: string,
+    areaBottomColor: string,
+}
+interface ChartProps {
+    data: Promise<unknown>,
+    colors?: Colors;
+}
+
+export const Chart = (props: ChartProps) => {
     const {
         data,
         colors: {

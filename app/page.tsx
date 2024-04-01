@@ -5,8 +5,13 @@ import { Chart } from "@/components/Chart";
 import { Header } from "@/components/Header";
 import { SeachInput } from "@/components/SearchInput";
 import { TopGainersLosers } from "@/components/TopGainersLosers";
-import { fetchApiData, fetchApiSearchResults, fetchApiTopGainersLosers, fetchDemolData } from "@/utils/Api";
-import { useEffect, useState } from "react";
+import { BestMatchResults, fetchApiData, fetchApiSearchResults, fetchApiTopGainersLosers, fetchDemolData } from "@/utils/Api";
+import { createContext, useEffect, useState } from "react";
+
+interface SearchInputContext {
+  searchResults: BestMatchResults;
+}
+export const SearchInputContext = createContext<SearchInputContext>({ searchResults: null });
 
 export default function Home() {
   const [data, setData] = useState<any>(null);
@@ -47,7 +52,9 @@ export default function Home() {
 
   return (<>
     <Header>
-      <SeachInput onSubmit={onSubmit} onInput={onSearchInput} onBlur={onBlur} searchResults={searchResults} />
+      <SearchInputContext.Provider value={{ searchResults }}>
+        <SeachInput onSubmit={onSubmit} onInput={onSearchInput} onBlur={onBlur} searchResults={searchResults} />
+      </SearchInputContext.Provider>
     </Header>
     <main>
       {errorMessageForClient

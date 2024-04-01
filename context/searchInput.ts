@@ -1,4 +1,4 @@
-import { BestMatchResults } from "@/utils/apixxx";
+import { BestMatchResults } from "@/utils/api";
 import { createContext } from "react";
 
 interface SearchInputContext {

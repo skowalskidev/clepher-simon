@@ -1,4 +1,4 @@
-import { TopGainerLoser, TopGainersLosersData } from "@/utils/apixxx";
+import { TopGainerLoser, TopGainersLosersData } from "@/utils/api";
 import { TopGainersLosersSkeleton } from "./TopGainersLosersSkeleton";
 import { FaCaretUp } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa";

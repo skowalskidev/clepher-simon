@@ -25,9 +25,10 @@ export default function Home() {
   return (
     <main>
       <SeachInput onSubmit={onSearchClick} />
-      {data == null && <div>loading...</div>}
-      {errorMessageForClient && <Alert message={errorMessageForClient.toString()} />}
-      {data != null && !errorMessageForClient && <Chart data={data} />}
+
+      {errorMessageForClient
+        ? <Alert message={errorMessageForClient.toString()} />
+        : <Chart data={data} />}
     </main>
   );
 }

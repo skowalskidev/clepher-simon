@@ -30,6 +30,7 @@ export const Chart = (props: ChartProps) => {
 
     useEffect(
         () => {
+            if (!chartContainerRef.current || !data) return;
             const handleResize = () => {
                 // @ts-ignore
                 chart.applyOptions({ width: chartContainerRef.current.clientWidth });
@@ -62,9 +63,11 @@ export const Chart = (props: ChartProps) => {
     );
 
     return (
-        <div
-            // @ts-ignore
-            ref={chartContainerRef}
-        />
+        <>
+            {data == null
+                ? <div>loading...</div>
+                // @ts-ignore
+                : <div ref={chartContainerRef} />}
+        </>
     );
 };

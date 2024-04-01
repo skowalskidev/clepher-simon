@@ -6,7 +6,7 @@ import { Header } from "@/components/Header";
 import { SeachInput } from "@/components/SearchInput";
 import { TopGainersLosers } from "@/components/TopGainersLosers";
 import { SearchInputContext } from "@/context/searchInput";
-import { fetchApiData, fetchApiSearchResults, fetchApiTopGainersLosers, fetchDemolData } from "@/utils/api";
+import { fetchApiData, fetchApiSearchResults, fetchApiTopGainersLosers, fetchDemolData } from "@/utils/apixxx";
 import { useEffect, useState } from "react";
 
 export default function Home() {

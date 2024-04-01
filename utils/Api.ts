@@ -1,3 +1,5 @@
+
+
 export enum FunctionType {
     TIME_SERIES_DAILY = 'TIME_SERIES_DAILY',
     TIME_SERIES_INTRADAY = 'TIME_SERIES_INTRADAY',
@@ -22,8 +24,8 @@ export enum Interval {
 }
 
 export function getApiUrl(_function: FunctionType, symbol: string, interval: Interval): string {
-    // return `https://www.alphavantage.co/query?function=${_function}&symbol=${symbol}&interval=${interval}&apikey=32urbfbsygcsdjkhk`; // TODO: change to another method of authentication to remove the need to expose the api key to the client
-    return `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`;
+    // return `https://www.alphavantage.co/query?function=${_function}&symbol=${symbol}&interval=${interval}&apikey=${process.env.NEXT_PUBLIC_APIKEY}`; // TODO: change to another method of authentication to remove the need to expose the api key to the client
+    return `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=${process.env.NEXT_PUBLIC_DEMO_APIKEY}`;
 }
 
 function fetchData(url: string) {
@@ -60,5 +62,5 @@ export function fetchApiData(symbol: string) {
 }
 
 export function fetchDemolData() {
-    return fetchData("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo");
+    return fetchData(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=${process.env.NEXT_PUBLIC_DEMO_APIKEY}`);
 }

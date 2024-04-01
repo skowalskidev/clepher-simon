@@ -41,7 +41,7 @@ export interface TopGainerLoser {
     ticker: string,
     price: string,
     changeAmount: string,
-    changePercentage: string,
+    changePercentage: number,
     volume: string,
 }
 
@@ -158,12 +158,12 @@ export function fetchApiTopGainersLosers() {
                 const topGainers = data.top_gainers.slice(0, 4).map((topGainer: any) => ({
                     ticker: topGainer.ticker,
                     price: topGainer.price,
-                    changePercentage: topGainer.change_percentage,
+                    changePercentage: parseFloat(topGainer.change_percentage),
                 }));
                 const topLosers = data.top_losers.slice(0, 4).map((topLoser: any) => ({
                     ticker: topLoser.ticker,
                     price: topLoser.price,
-                    changePercentage: topLoser.change_percentage,
+                    changePercentage: parseFloat(topLoser.change_percentage),
                 }));
                 const topGainersLosers: TopGainersLosersData = {
                     topGainers,

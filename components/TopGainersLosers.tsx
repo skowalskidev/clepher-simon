@@ -1,5 +1,7 @@
 import { TopGainerLoser, TopGainersLosersData } from "@/utils/Api";
 import { TopGainersLosersSkeleton } from "./TopGainersLosersSkeleton";
+import { FaCaretUp } from "react-icons/fa";
+import { FaCaretDown } from "react-icons/fa";
 
 
 export const TopGainersLosers = ({ topGainersLosersData }: { topGainersLosersData: TopGainersLosersData }) => {
@@ -15,7 +17,7 @@ export const TopGainersLosers = ({ topGainersLosersData }: { topGainersLosersDat
                                     Symbol
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Name
+                                    Price
                                 </th>
                                 <th scope="col" className="px-6 py-3">
                                     %Change
@@ -29,10 +31,10 @@ export const TopGainersLosers = ({ topGainersLosersData }: { topGainersLosersDat
                                         {ticker}
                                     </th>
                                     <td className="px-6 py-4">
-                                        {price}
+                                        ${price}
                                     </td>
-                                    <td className="px-6 py-4 text-green-400">
-                                        {changePercentage}
+                                    <td className="flex items-center px-6 py-4 text-green-400">
+                                        <FaCaretUp />{changePercentage.toFixed(2)}%
                                     </td>
                                 </tr>
                             ))}
@@ -44,8 +46,8 @@ export const TopGainersLosers = ({ topGainersLosersData }: { topGainersLosersDat
                                     <td className="px-6 py-4">
                                         {price}
                                     </td>
-                                    <td className="px-6 py-4 text-red-400">
-                                        {changePercentage}
+                                    <td className="flex items-center px-6 py-4 text-red-400">
+                                        <FaCaretDown />{(changePercentage * -1).toFixed(2)}%
                                     </td>
                                 </tr>
                             ))}

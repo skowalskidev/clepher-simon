@@ -25,10 +25,11 @@ export default function Home() {
   return (
     <main>
       <SeachInput onSubmit={onSearchClick} />
-
-      {errorMessageForClient
-        ? <Alert message={errorMessageForClient.toString()} />
-        : <Chart data={data} />}
+      <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+        {errorMessageForClient
+          ? <Alert message={errorMessageForClient.toString()} />
+          : <Chart data={data} />}
+      </div>
     </main>
   );
 }

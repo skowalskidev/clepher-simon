@@ -1,5 +1,6 @@
 import { createChart, ColorType } from 'lightweight-charts';
 import React, { useEffect, useRef } from 'react';
+import { ChartSkeleton } from './ChartSkeleton';
 
 
 interface Colors {
@@ -63,11 +64,11 @@ export const Chart = (props: ChartProps) => {
     );
 
     return (
-        <>
+        <div className='flex justify-center'>
             {data == null
-                ? <div>loading...</div>
+                ? <ChartSkeleton />
                 // @ts-ignore
-                : <div ref={chartContainerRef} />}
-        </>
+                : <div className="w-full" ref={chartContainerRef} />}
+        </div>
     );
 };

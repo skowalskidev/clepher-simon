@@ -9,40 +9,40 @@ import { fetchApiData, fetchApiSearchResults, fetchApiTopGainersLosers, fetchDem
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [data, SetData] = useState<any>(null);
-  const [searchResults, SetSearchResults] = useState<any>(null);
-  const [topGainersLosers, SetTopGainersLosers] = useState<any>(null);
-  const [errorMessageForClient, SetErrorMessageForClient] = useState<string | null>(null);
+  const [data, setData] = useState<any>(null);
+  const [searchResults, setSearchResults] = useState<any>(null);
+  const [topGainersLosers, setTopGainersLosers] = useState<any>(null);
+  const [errorMessageForClient, setErrorMessageForClient] = useState<string | null>(null);
 
   useEffect(() => {
     fetchApiTopGainersLosers()
-      .then(SetTopGainersLosers)
-      .catch(SetErrorMessageForClient);
+      .then(setTopGainersLosers)
+      .catch(setErrorMessageForClient);
     fetchDemolData()
-      .then(SetData)
-      .catch(SetErrorMessageForClient);
+      .then(setData)
+      .catch(setErrorMessageForClient);
   }, []);
 
   function onSubmit(symbol: string) {
-    SetData(null);
-    SetSearchResults(null);
+    setData(null);
+    setSearchResults(null);
     fetchApiData(symbol)
-      .then(SetData)
-      .catch(SetErrorMessageForClient);
+      .then(setData)
+      .catch(setErrorMessageForClient);
   }
 
   function onSearchInput(keywords: string) {
     if (!keywords.length) {
-      SetSearchResults(null);
+      setSearchResults(null);
       return;
     };
     fetchApiSearchResults(keywords)
-      .then(SetSearchResults)
-      .catch(SetErrorMessageForClient);
+      .then(setSearchResults)
+      .catch(setErrorMessageForClient);
   }
 
   function onBlur() {
-    SetSearchResults(null);
+    setSearchResults(null);
   }
 
   return (<>
